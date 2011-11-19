@@ -43,34 +43,42 @@ echo -e "\n\nInstalando o rails ${rails_version}:\n"
 gem install rails -v ${rails_version} --no-rdoc --no-ri
 
 # configurando conta do git
-echo -e "\n\nConfigurando conta do git"
-echo -e "\n\nNome de usuario do Github:"
-read username; git config --global user.name ${username}
+echo -e "Deseja configurar a sincronia deste computador com o Github? y/N"
+read option
 
-echo -e "\n\nConta de email do git:"
-read email; git config --global user.email ${email}
+case ${option} in
+'y'|'Y'|'s'|'S')
+  echo -e "\n\nConfigurando conta do git"
+  echo -e "\n\nNome de usuario do Github:"
+  read username; git config --global user.name ${username}
 
-# atalhos do git
-git config --global alias.st status
-# cores no diff
-git config --global color.branch auto
-git config --global color.diff auto
-git config --global color.status auto
+  echo -e "\n\nConta de email do git:"
+  read email; git config --global user.email ${email}
 
-# criacao da chave ssh para uso no github
+  # atalhos do git
+  git config --global alias.st status
+  # cores no diff
+  git config --global color.branch auto
+  git config --global color.diff auto
+  git config --global color.status auto
 
-echo -e "\n\nGerando chaves ssh para conexao no github(Necessario criar uma conta lah):"
-ssh-keygen -t rsa -C ${email}
-echo -e "\n\nAdicione esta chave no Github:"
-cat ${HOME}/.ssh/id_rsa.pub
-echo -e "\n\nPressione enter para continuar"
-read wating
+  # criacao da chave ssh para uso no github
 
-echo -e "\n\nTestando conexão ssh no Github"
+  echo -e "\n\nGerando chaves ssh para conexao no github(Necessario criar uma conta lah):"
+  ssh-keygen -t rsa -C ${email}
+  echo -e "\n\nAdicione esta chave no Github:"
+  cat ${HOME}/.ssh/id_rsa.pub
+  echo -e "\n\nPressione enter para continuar"
+  read wating
 
-# testando ssh no github
-ssh -T git@github.com
+  echo -e "\n\nTestando conexão ssh no Github"
 
-echo -e "\n\nInstalação e configuração do rvm(ruby, git e gemset) finalizada.\n\n:-D\n\n"
+  # testando ssh no github
+  ssh -T git@github.com
+  ;;
+*)
+  echo -e "\n\nInstalação e configuração do rvm(ruby, git e gemset) finalizada.\n\n:-D\n\n"
+  ;;
+esac
 
 exit 0
