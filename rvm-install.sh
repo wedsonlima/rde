@@ -4,46 +4,68 @@
 # Ambiente de desenvolvimento em Ruby on Rails, utilizando RVM e git
 ########################################################################
 
-
-echo -e "\n---\nInstalação do ambiente de desenvolvimento com git, rvm, ruby e solar\n---\n"
-echo -e "\nInstalando dependencias:\n"
-
-sudo apt-get install imagemagick curl bash sed mawk libxslt-dev libxml2-dev libpq-dev git-core git-doc gitg
-
-echo -e "\n\nInstalando rvm:\n"
-bash < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer )
-
-# load do rvm no shell como uma funcao
-if [ -f ${HOME}/.bashrc ]; then
-    echo '[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function' >> ~/.bashrc
-    source ${HOME}/.bashrc
-elif [ -f ${HOME}/.bash_profile ]; then
-    echo '[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function' >> ~/.bash_profile
-    source ${HOME}/.bash_profile
-else
-    echo -e "\n\nNenhum arquivo de bash encontrado.\n\n"
-    exit 1
-fi
-
-# definindo valores
+# definindo versões e nome da gemset
 ruby_version='1.9.3'
-rails_version='3.0.7'
+rails_version='3.0.11'
 gemset_name='rails3'
 
-echo -e "\n\nInstalando ruby ${ruby_version}:\n"
-rvm install ${ruby_version}
+# instalacao ou atualizacao dos pacotes de desenvolvimento
+echo -e "\n---\nInstalação do ambiente de desenvolvimento com git, rvm, ruby e solar\n---\n"
+echo -e "\nInstalando dependencias:"
+sudo apt-get install imagemagick curl bash sed mawk libxslt-dev libxml2-dev libpq-dev git-core git-doc gitg
 
-echo -e "\n\nDefinindo RVM ${ruby_version}:\n"
+# verifica se o rvm já esta instalado e se é a versão mais atual
+is_rvm_install=$(rvm --version 2> /dev/null > /dev/null; echo $?)
+
+# instalando rvm
+if [ ${is_rvm_install} -gt 0 ]; then
+  echo -e "\n\nInstalando rvm"
+  bash < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer )
+
+  # load do rvm no shell como uma funcao
+  if [ -f ${HOME}/.bashrc ]; then
+    echo '[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function' >> ~/.bashrc
+    source ${HOME}/.bashrc
+  elif [ -f ${HOME}/.bash_profile ]; then
+    echo '[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function' >> ~/.bash_profile
+    source ${HOME}/.bash_profile
+  else
+    echo -e "\n\nNenhum arquivo de bash encontrado"
+    exit 1
+  fi
+
+else
+  echo -e "\n\nRVM já instalado"
+fi
+
+# verifica se a versao do ruby já está instalada
+is_ruby_install=$(rvm use ${ruby_version} > /dev/null; echo $?)
+
+if [ ${is_ruby_install} -gt 0 ]; then
+  echo -e "\n\nInstalando ruby ${ruby_version}"
+  rvm install ${ruby_version}
+else
+  echo -e "\n\nVersão ${ruby_version} do ruby já instalada."
+fi
+
+echo -e "\n\nSetando ruby ${ruby_version}"
 rvm use ${ruby_version}
 
-echo -e "\n\nCriando gemset '${gemset_name}' para o ruby ${ruby_version}:\n"
+echo -e "\n\nCriando gemset '${gemset_name}' para o ruby ${ruby_version}"
 rvm --create ${ruby_version}@${gemset_name}
 
-echo -e "\n\nInstalando o rails ${rails_version}:\n"
-gem install rails -v ${rails_version} --no-rdoc --no-ri
+# verificar se o rails ja se encontra instalado
+is_rails_install=$(rails -v 2> /dev/null | grep ${rails_version} > /dev/null; echo $?)
+
+if [ ${is_rails_install} -gt 0 ]; then
+  echo -e "\n\nInstalando o rails ${rails_version}"
+  gem install rails -v ${rails_version} --no-rdoc --no-ri
+else
+  echo -e "\n\nrails ${rails_version} já instalada"
+fi
 
 # configurando conta do git
-echo -e "Deseja configurar a sincronia deste computador com o Github? y/N"
+echo -e "\n\nDeseja configurar a sincronia deste computador com o Github? y/N"
 read option
 
 case ${option} in
