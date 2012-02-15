@@ -1,5 +1,7 @@
-Script de criação de um ambiente de desenvolvimento Ruby on Rails para Ubuntu com RVM e GIT
+* Script de criação de um ambiente de desenvolvimento Ruby on Rails para Ubuntu com RVM e GIT(com criação de chaves no github) *
 
+-- Como executar após dar permissão
+$ . rvm-install.sh
 
 Author:
   Wedson Lima

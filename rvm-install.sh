@@ -20,7 +20,7 @@ is_rvm_install=$(rvm --version 2> /dev/null > /dev/null; echo $?)
 # instalando rvm
 if [ ${is_rvm_install} -gt 0 ]; then
   echo -e "\n\nInstalando rvm"
-  bash < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer )
+  bash -s stable < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer)
 
   # load do rvm no shell como uma funcao
   if [ -f ${HOME}/.bashrc ]; then
