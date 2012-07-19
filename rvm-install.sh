@@ -1,4 +1,4 @@
-#!/bin/bash
+#! /bin/bash
 
 ########################################################################
 # Ambiente de desenvolvimento em Ruby on Rails, utilizando RVM e git
@@ -7,16 +7,12 @@
 # instalacao ou atualizacao dos pacotes de desenvolvimento
 echo -e "\n---\nInstalação do ambiente de desenvolvimento com git, ruby e rvm\n---\n"
 echo -e "\nInstalando dependencias:"
-sudo apt-get install imagemagick curl bash sed mawk libxslt-dev libxml2-dev libpq-dev git-core git-doc gitg
+sudo apt-get install imagemagick sed mawk libpq-dev build-essential openssl libreadline6 libreadline6-dev curl git-core gitg \
+zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev automake libtool bison
 
 # instalando rvm
 echo -e "\n\nInstalando rvm"
 curl -L https://get.rvm.io | bash -s stable --ruby; source /home/wedson/.rvm/scripts/rvm; rvm reload
-
-# definindo versões e nome da gemset
-ruby_version=$(rvm-prompt v)
-rails_version='3.2.6'
-gemset_name='rails3'
 
 # load do rvm no shell como uma funcao
 if [ -f ${HOME}/.bashrc ]; then
@@ -30,18 +26,21 @@ else
   exit 1
 fi
 
+# definindo versões e nome da gemset
+ruby_version=$(rvm-prompt v)
+# rails_version='3.2.6'
+
+echo -e "Nome para a gemset(nome default: rails3): "
+read gemset_name
+if [ -z $gemset_name ]; then
+  gemset_name="rails3"
+fi
+
 echo -e "\n\nCriando gemset '${gemset_name}' para o ruby ${ruby_version}"
 rvm use ${ruby_version}@${gemset_name} --create
 
-# verificar se o rails ja se encontra instalado
-is_rails_install=$(rails -v 2> /dev/null | grep ${rails_version} > /dev/null; echo $?)
-
-if [ ${is_rails_install} -gt 0 ]; then
-  echo -e "\n\nInstalando o rails ${rails_version}"
-  gem install rails -v ${rails_version} --no-rdoc --no-ri
-else
-  echo -e "\n\nrails ${rails_version} já instalado"
-fi
+echo -e "\n\nInstalando gem rails"
+gem install rails --no-ri --no-rdoc
 
 # configurando conta do git
 echo -e "\n\nDeseja configurar a sincronia deste computador com o Github? y/N"
