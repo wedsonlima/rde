@@ -12,7 +12,7 @@ zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libx
 
 # instalando rvm
 echo -e "\n\nInstalando rvm"
-curl -L https://get.rvm.io | bash -s stable --ruby; source /home/wedson/.rvm/scripts/rvm; rvm reload
+curl -L https://get.rvm.io | bash -s stable --ruby; source $HOME/.rvm/scripts/rvm; rvm reload
 
 # load do rvm no shell como uma funcao
 if [ -f ${HOME}/.bashrc ]; then
