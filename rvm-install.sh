@@ -7,9 +7,9 @@
 # instalacao ou atualizacao dos pacotes de desenvolvimento
 echo -e "\n---\nInstalação do ambiente de desenvolvimento com git, ruby e rvm\n---\n"
 echo -e "\nInstalando dependencias:"
-sudo apt-get install imagemagick sed mawk libpq-dev build-essential openssl libreadline6 libreadline6-dev curl git-core gitg \
+sudo apt-get install imagemagick sed mawk libpq-dev build-essential openssl libreadline6 libreadline6-dev curl git-core \
 zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev automake libtool bison \
-postgresql-9.1 nodejs
+postgresql-9.1 nodejs ssh
 
 # instalando rvm
 echo -e "\n\nInstalando rvm"
@@ -59,9 +59,7 @@ case ${option} in
   # atalhos do git
   git config --global alias.st status
   # cores no diff
-  git config --global color.branch auto
-  git config --global color.diff auto
-  git config --global color.status auto
+  git config --global color.ui true
 
   # criacao da chave ssh para uso no github
 
