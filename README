@@ -1,7 +1,7 @@
 * Script de criação de um ambiente de desenvolvimento Ruby on Rails para Ubuntu com RVM e GIT (com criação de chaves no github) *
 
 Para executar o script direto do github:
- $ bash < <(curl https://raw.github.com/wedsonlima/rde/master/rvm-install.sh)
+ $ \curl -sSL https://raw.github.com/wedsonlima/rde/master/rvm-install.sh | bash
 
 Ou, faça um clone do projeto e siga os seguintes passos:
 
