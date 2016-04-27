@@ -1,12 +1,11 @@
 #! /bin/bash
 
 ########################################################################
-# Ambiente de desenvolvimento em Ruby on Rails, utilizando RVM e git
+# Ruby on Rails environment for Ubuntu with RVM and GIT
 ########################################################################
 
-# instalacao ou atualizacao dos pacotes de desenvolvimento
-echo -e "\n---\nInstalação do ambiente de desenvolvimento com git, ruby e rvm\n---\n"
-echo -e "\nInstalando dependencias:"
+echo -e "\n---\nRuby on Rails environment for Ubuntu with RVM and GIT\n---\n"
+echo -e "\nResolving dependencies:"
 
 sudo apt-get install imagemagick sed mawk libpq-dev build-essential openssl libreadline6 libreadline6-dev curl git-core \
 zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev automake libtool bison \
@@ -14,13 +13,12 @@ postgresql-9.4 nodejs ssh
 
 sudo apt-get autoremove
 
-# instalando rvm
-echo -e "\n\nInstalando rvm"
+echo -e "\n\nInstalling rvm"
 
 gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
 \curl -sSL https://get.rvm.io | bash -s stable --ruby; source $HOME/.rvm/scripts/rvm; rvm reload
 
-# load do rvm no shell como uma funcao
+# load rvm as a function
 if [ -f ${HOME}/.bashrc ]; then
    echo '[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function' >> ~/.bashrc
   source ${HOME}/.bashrc
@@ -28,47 +26,45 @@ elif [ -f ${HOME}/.bash_profile ]; then
    echo '[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function' >> ~/.bash_profile
   source ${HOME}/.bash_profile
 else
-  echo -e "\n\nNenhum arquivo de bash encontrado"
+  echo -e "\n\nNo bash file found"
   exit 1
 fi
 
-echo -e "\n\nInstalando gem rails"
+echo -e "\n\nInstalling RoR"
 gem install rails --no-ri --no-rdoc
 
-# configurando conta do git
-echo -e "\n\nDeseja configurar a sincronia deste computador com o Github? y/N"
+echo -e "\n\nSync with GitHub? y/N"
 read option
 
 case ${option} in
 'y'|'Y'|'s'|'S')
-  echo -e "\n\nConfigurando conta do git"
-  echo -e "\n\nNome de usuario do Github:"
+  echo -e "\n\nConfiguring git account"
+  echo -e "\n\nusername from GitHub:"
   read username; git config --global user.name ${username}
 
-  echo -e "\n\nConta de email do git:"
+  echo -e "\n\nEmail account:"
   read email; git config --global user.email ${email}
 
-  # atalhos do git
+  # git alias
   git config --global alias.st status
-  # cores no diff
+  # setting colors diff
   git config --global color.ui true
 
-  # criacao da chave ssh para uso no github
+  # github keys
 
-  echo -e "\n\nGerando chaves ssh para conexao no github(Necessario criar uma conta lah):"
+  echo -e "\n\nCreating ssh keys:"
   ssh-keygen -t rsa -C ${email}
-  echo -e "\n\nAdicione esta chave no Github:"
+  echo -e "\n\nPaste this ssh key in your GitHub account:"
   cat ${HOME}/.ssh/id_rsa.pub
   echo -e "\n\nPressione enter para continuar"
   read wating
 
-  echo -e "\n\nTestando conexão ssh no Github"
+  echo -e "\n\nTesting GitHub connection"
 
-  # testando ssh no github
   ssh -T git@github.com
   ;;
 *)
-  echo -e "\n\nInstalação e configuração do rvm(ruby, git e gemset) finalizada.\n\n:-D\n\n"
+  echo -e "\n\nDone.\n\n:-D\n\n"
   ;;
 esac
 
