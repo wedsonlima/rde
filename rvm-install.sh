@@ -11,7 +11,7 @@ sudo apt-get install imagemagick sed mawk libpq-dev build-essential openssl libr
 zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev automake libtool bison \
 postgresql-9.4 nodejs ssh
 
-sudo apt-get autoremove
+# sudo apt-get autoremove
 
 echo -e "\n\nInstalling rvm"
 
