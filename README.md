@@ -1,11 +1,15 @@
-* Ruby on Rails environment for Ubuntu with RVM and GIT *
+## Ruby on Rails environment for Ubuntu with RVM and GIT
 
-Run from github page:
-  $ \curl -sSL https://raw.github.com/wedsonlima/rde/master/rvm-install.sh | bash
+*From github page:*
+```
+$ \curl -sSL https://raw.github.com/wedsonlima/rde/master/rvm-install.sh | bash
+```
 
-Or:
+*Or:*
 
-  $ git clone git@github.com:wedsonlima/rde.git
-  $ cd ./rde
-  $ chmod +x rvm-install.sh
-  $ . rvm-install.sh
+```
+$ git clone git@github.com:wedsonlima/rde.git
+$ cd ./rde
+$ chmod +x rvm-install.sh
+$ . rvm-install.sh
+```
