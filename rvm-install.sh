@@ -9,29 +9,18 @@ echo -e "\nResolving dependencies:"
 
 sudo apt-get install imagemagick sed mawk libpq-dev build-essential openssl libreadline6 libreadline6-dev curl git-core \
 zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev automake libtool bison \
-postgresql-9.4 nodejs ssh
+postgresql-9.6 nodejs ssh
 
 # sudo apt-get autoremove
 
 echo -e "\n\nInstalling rvm"
 
-gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
+gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
 \curl -sSL https://get.rvm.io | bash -s stable --ruby; source $HOME/.rvm/scripts/rvm; rvm reload
-
-# load rvm as a function
-if [ -f ${HOME}/.bashrc ]; then
-   echo '[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function' >> ~/.bashrc
-  source ${HOME}/.bashrc
-elif [ -f ${HOME}/.bash_profile ]; then
-   echo '[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function' >> ~/.bash_profile
-  source ${HOME}/.bash_profile
-else
-  echo -e "\n\nNo bash file found"
-  exit 1
-fi
 
 echo -e "\n\nInstalling RoR"
 gem install rails --no-ri --no-rdoc
+gem install rails -v 4.2.7 --no-ri --no-rdoc
 
 echo -e "\n\nSync with GitHub? y/N"
 read option
