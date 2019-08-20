@@ -160,8 +160,8 @@ case ${option} in
   # https://github.com/asdf-vm/asdf-ruby
   asdf plugin-add ruby https://github.com/asdf-vm/asdf-ruby.git
 
-  asdf install ruby 2.4.4
-  asdf install ruby 2.5.3
+  # asdf install ruby 2.4.4
+  # asdf install ruby 2.5.3
   asdf install ruby 2.6.3
 
   if [[ -e $(which ruby) ]]; then
