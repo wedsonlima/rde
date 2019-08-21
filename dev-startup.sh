@@ -28,6 +28,7 @@ sudo apt install build-essential \
                   libreadline-dev \
                   libtool \
                   ncurses-term \
+                  make \
                   automake \
                   autoconf  \
                   libffi-dev \
@@ -52,27 +53,6 @@ sudo apt install build-essential \
                   default-jdk \
                   postgresql-10 postgresql-contrib postgresql-server-dev-10 \
                   memcached
-
-########################################
-#               Zsh
-########################################
-
-echo -e "\n\nInstall Zsh? y/N"
-read option
-
-# https://github.com/skwp/dotfiles
-case ${option} in
-'y'|'Y'|'s'|'S')
-
-  sudo apt install zsh powerline fonts-powerline
-
-  sh -c "`curl -fsSL https://raw.githubusercontent.com/skwp/dotfiles/master/install.sh `"
-
-  ;;
-*)
-  echo -e "\n\nDone.\n\n:-D\n\n"
-  ;;
-esac
 
 ########################################
 #               Flat-Remix
@@ -107,6 +87,7 @@ read option
 case ${option} in
 'y'|'Y'|'s'|'S')
 
+  echo -e "\n\nDOCKER GPG"
   curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 
   sudo add-apt-repository \
@@ -149,13 +130,6 @@ case ${option} in
 
   source ~/.bashrc
 
-  # zsh
-
-  echo -e '\n. $HOME/.asdf/asdf.sh' >> ~/.zshrc
-  echo -e '\n. $HOME/.asdf/completions/asdf.bash' >> ~/.zshrc
-
-  source ~/.zshrc
-
   echo -e "\n-- asdf / ruby"
 
   # https://github.com/asdf-vm/asdf-ruby
@@ -185,6 +159,34 @@ case ${option} in
 esac
 
 ########################################
+#               Zsh
+########################################
+# needs ruby
+echo -e "\n\nInstall Zsh? y/N"
+read option
+
+# https://github.com/skwp/dotfiles
+case ${option} in
+'y'|'Y'|'s'|'S')
+
+  sudo apt install zsh powerline fonts-powerline
+
+  sh -c "`curl -fsSL https://raw.githubusercontent.com/skwp/dotfiles/master/install.sh `"
+
+  echo -e '\n. $HOME/.asdf/asdf.sh' >> ~/.zshrc
+  echo -e '\n. $HOME/.asdf/completions/asdf.bash' >> ~/.zshrc
+
+  chsh -s /usr/bin/zsh
+
+  # source ~/.zshrc
+
+  ;;
+*)
+  echo -e "\n\nDone.\n\n:-D\n\n"
+  ;;
+esac
+
+########################################
 #               ngrok
 ########################################
 
@@ -199,6 +201,9 @@ case ${option} in
   echo -e "\n\n ngrok authtoken:"
   read authtoken
   ./ngrok authtoken authtoken
+
+  # making it globaly available
+  sudo mv ngrok /usr/local/bin
 
   ;;
 *)
