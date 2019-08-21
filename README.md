@@ -1,15 +1,15 @@
-## Dev environment for Ubuntu
+## Ubuntu dev environment
 
 *From github page:*
 ```
-$ \curl -sSL https://raw.github.com/wedsonlima/rde/master/dev-startup.sh | bash
+$ \curl -sSL https://raw.github.com/wedsonlima/ubuntu-dev-env/master/dev-startup.sh | bash
 ```
 
 *Or:*
 
 ```
-$ git clone git@github.com:wedsonlima/rde.git
-$ cd ./rde
-$ chmod +x rvm-install.sh
+$ git clone git@github.com:wedsonlima/ubuntu-dev-env.git
+$ cd ./ubuntu-dev-env
+$ chmod +x dev-startup.sh
 $ . dev-startup.sh
 ```

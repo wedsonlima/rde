@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ########################################################################
-# Dev environment for Ubuntu
+# Ubuntu dev environment
 ########################################################################
 
 ORIG_FOLDER=$PWD
@@ -46,6 +46,7 @@ sudo apt install build-essential \
                   ca-certificates \
                   ssh \
                   git \
+                  tilix \
                   gnome-tweak-tool \
                   fonts-hack-ttf \
                   default-jdk \
@@ -132,7 +133,7 @@ esac
 #               ASDF
 ########################################
 
-echo -e "\n\nInstall asdf? y/N"
+echo -e "\n\nInstall ASDF? y/N"
 read option
 
 # https://asdf-vm.com/#/core-manage-asdf-vm
@@ -184,30 +185,20 @@ case ${option} in
 esac
 
 ########################################
-#               Snaps
+#               ngrok
 ########################################
 
-echo -e "\n\nInstall SNAPS? y/N"
+echo -e "\n\nInstall ngrok? y/N"
 read option
 
-# https://snapcraft.io/store
 case ${option} in
 'y'|'Y'|'s'|'S')
 
-  sudo snap install sublime-text --classic
-  sudo snap install slack --classic
-  sudo snap install spotify
-  sudo snap install opera
-  sudo snap install postman
-  sudo snap install chromium
-
-  echo -e "\n-- enpass"
-
-  # https://www.enpass.io/support/kb/general/how-to-install-enpass-on-linux/
-  echo "deb https://apt.enpass.io/ stable main" | sudo tee /etc/apt/sources.list.d/enpass.list
-  wget -O - https://apt.enpass.io/keys/enpass-linux.key | sudo apt-key add -
-  sudo apt update
-  sudo apt install enpass
+  wget -O ngrok.zip https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
+  unzip ./ngrok.zip
+  echo -e "\n\n ngrok authtoken:"
+  read authtoken
+  ./ngrok authtoken authtoken
 
   ;;
 *)
@@ -231,13 +222,14 @@ git config --global alias.st status
 # setting colors diff
 git config --global color.ui true
 
-echo -e "\n\nSync with GitHub? y/N"
+echo -e "\n\nCreating ssh keys:"
+ssh-keygen -t rsa -C ${email}
+
+echo -e "\n\nSetting with GitHub? y/N"
 read option
 
 case ${option} in
 'y'|'Y'|'s'|'S')
-  echo -e "\n\nCreating ssh keys:"
-  ssh-keygen -t rsa -C ${email}
   echo -e "\n\nPaste this ssh key in your GitHub account:"
   cat ${HOME}/.ssh/id_rsa.pub
   echo -e "\n\nPress enter to continue"
@@ -246,6 +238,57 @@ case ${option} in
   echo -e "\n\nTesting GitHub connection"
 
   ssh -T git@github.com
+  ;;
+*)
+  echo -e "\n\nDone.\n\n:-D\n\n"
+  ;;
+esac
+
+echo -e "\n\nSetting with BitBucket? y/N"
+read option
+
+case ${option} in
+'y'|'Y'|'s'|'S')
+  echo -e "\n\nPaste this ssh key in your BitBucket account:"
+  cat ${HOME}/.ssh/id_rsa.pub
+  echo -e "\n\nPress enter to continue"
+  read waiting
+
+  echo -e "\n\nTesting BitBucket connection"
+
+  ssh -T git@bitbucket.org
+  ;;
+*)
+  echo -e "\n\nDone.\n\n:-D\n\n"
+  ;;
+esac
+
+########################################
+#               Snaps
+########################################
+
+echo -e "\n\nInstall SNAPS? y/N"
+read option
+
+# https://snapcraft.io/store
+case ${option} in
+'y'|'Y'|'s'|'S')
+
+  sudo snap install sublime-text --classic
+  sudo snap install opera
+  sudo snap install spotify
+  sudo snap install postman
+  sudo snap install slack --classic
+  sudo snap install chromium
+
+  echo -e "\n-- enpass"
+
+  # https://www.enpass.io/support/kb/general/how-to-install-enpass-on-linux/
+  echo "deb https://apt.enpass.io/ stable main" | sudo tee /etc/apt/sources.list.d/enpass.list
+  wget -O - https://apt.enpass.io/keys/enpass-linux.key | sudo apt-key add -
+  sudo apt update
+  sudo apt install enpass
+
   ;;
 *)
   echo -e "\n\nDone.\n\n:-D\n\n"
