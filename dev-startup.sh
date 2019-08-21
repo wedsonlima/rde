@@ -176,8 +176,6 @@ case ${option} in
   echo -e '\n. $HOME/.asdf/asdf.sh' >> ~/.zshrc
   echo -e '\n. $HOME/.asdf/completions/asdf.bash' >> ~/.zshrc
 
-  chsh -s /usr/bin/zsh
-
   # source ~/.zshrc
 
   ;;
@@ -280,11 +278,14 @@ case ${option} in
 'y'|'Y'|'s'|'S')
 
   sudo snap install sublime-text --classic
+  sudo snap install --classic heroku
   sudo snap install opera
   sudo snap install spotify
   sudo snap install postman
   sudo snap install slack --classic
   sudo snap install chromium
+
+  heroku login -i
 
   echo -e "\n-- enpass"
 
@@ -293,6 +294,11 @@ case ${option} in
   wget -O - https://apt.enpass.io/keys/enpass-linux.key | sudo apt-key add -
   sudo apt update
   sudo apt install enpass
+
+  echo -e "\n-- dropbox"
+
+  cd ~ && wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
+  ~/.dropbox-dist/dropboxd
 
   ;;
 *)
