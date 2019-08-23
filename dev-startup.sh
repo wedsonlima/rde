@@ -13,7 +13,7 @@ mkdir -p $TMP_FOLDER && cd $TMP_FOLDER
 #               Essentials
 ########################################
 
-echo -e "\nDependencies:"
+echo -e "\n Installing system dependencies..."
 
 sudo apt install build-essential \
                   zlib1g \
@@ -58,7 +58,7 @@ sudo apt install build-essential \
 #               Flat-Remix
 ########################################
 
-echo -e "\n\nInstall flat-remix? y/N"
+echo -e "\n Install flat-remix? [y/N]"
 read option
 
 case ${option} in
@@ -70,9 +70,11 @@ case ${option} in
   mkdir -p ~/.icons && mkdir -p ~/.themes
   cp -r flat-remix/Flat-Remix* ~/.icons/ && cp -r flat-remix-gtk/Flat-Remix-GTK* ~/.themes/
 
+  echo -e "\n done."
+
   ;;
 *)
-  echo -e "\n\nDone.\n\n:-D\n\n"
+  echo -e "\n That's fine."
   ;;
 esac
 
@@ -80,14 +82,14 @@ esac
 #               DOCKER
 ########################################
 
-echo -e "\n\nInstall DOCKER? y/N"
+echo -e "\n Install DOCKER? [y/N]"
 read option
 
 # https://docs.docker.com/install/linux/docker-ce/ubuntu/
 case ${option} in
 'y'|'Y'|'s'|'S')
 
-  echo -e "\n\nDOCKER GPG"
+  echo -e "\n DOCKER GPG"
   curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 
   sudo add-apt-repository \
@@ -104,9 +106,11 @@ case ${option} in
     echo 'Docker installation - ERROR'
   fi
 
+  echo -e "\n done."
+
   ;;
 *)
-  echo -e "\n\nDone.\n\n:-D\n\n"
+  echo -e "\n That's fine."
   ;;
 esac
 
@@ -114,7 +118,7 @@ esac
 #               ASDF
 ########################################
 
-echo -e "\n\nInstall ASDF? y/N"
+echo -e "\n Install ASDF? [y/N]"
 read option
 
 # https://asdf-vm.com/#/core-manage-asdf-vm
@@ -130,7 +134,7 @@ case ${option} in
 
   source ~/.bashrc
 
-  echo -e "\n-- asdf / ruby"
+  echo -e "\n -- asdf / ruby"
 
   # https://github.com/asdf-vm/asdf-ruby
   asdf plugin-add ruby https://github.com/asdf-vm/asdf-ruby.git
@@ -143,7 +147,7 @@ case ${option} in
     asdf global ruby 2.6.3
   fi
 
-  echo -e "\n-- asdf / node"
+  echo -e "\n -- asdf / node"
 
   # https://github.com/asdf-vm/asdf-nodejs
   asdf plugin-add nodejs https://github.com/asdf-vm/asdf-nodejs.git
@@ -152,9 +156,11 @@ case ${option} in
   asdf install nodejs 12.6.0
   asdf global nodejs 12.6.0
 
+  echo -e "\n done."
+
   ;;
 *)
-  echo -e "\n\nDone.\n\n:-D\n\n"
+  echo -e "\n That's fine."
   ;;
 esac
 
@@ -162,7 +168,7 @@ esac
 #               Zsh
 ########################################
 # needs ruby
-echo -e "\n\nInstall Zsh? y/N"
+echo -e "\n Install Zsh? [y/N]"
 read option
 
 # https://github.com/skwp/dotfiles
@@ -178,9 +184,11 @@ case ${option} in
 
   # source ~/.zshrc
 
+  echo -e "\n done."
+
   ;;
 *)
-  echo -e "\n\nDone.\n\n:-D\n\n"
+  echo -e "\n That's fine."
   ;;
 esac
 
@@ -188,7 +196,7 @@ esac
 #               ngrok
 ########################################
 
-echo -e "\n\nInstall ngrok? y/N"
+echo -e "\n Install ngrok? [y/N]"
 read option
 
 case ${option} in
@@ -196,16 +204,18 @@ case ${option} in
 
   wget -O ngrok.zip https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
   unzip ./ngrok.zip
-  echo -e "\n\n ngrok authtoken:"
+  echo -e "\n  ngrok authtoken:"
   read authtoken
   ./ngrok authtoken authtoken
 
-  # making it globaly available
+  # making it globally available
   sudo mv ngrok /usr/local/bin
+
+  echo -e "\n done."
 
   ;;
 *)
-  echo -e "\n\nDone.\n\n:-D\n\n"
+  echo -e "\n That's fine."
   ;;
 esac
 
@@ -213,11 +223,11 @@ esac
 #               git - Config
 ########################################
 
-echo -e "\n\nGit config account"
-echo -e "\n\n username:"
+echo -e "\n Git config account"
+echo -e "\n  username:"
 read username; git config --global user.name ${username}
 
-echo -e "\n\n email:"
+echo -e "\n  email:"
 read email; git config --global user.email ${email}
 
 # git alias
@@ -225,44 +235,49 @@ git config --global alias.st status
 # setting colors diff
 git config --global color.ui true
 
-echo -e "\n\nCreating ssh keys:"
+echo -e "\n Creating ssh keys:"
 ssh-keygen -t rsa -C ${email}
 
-echo -e "\n\nSetting with GitHub? y/N"
+echo -e "\n Setting with GitHub? [y/N]"
 read option
 
 case ${option} in
 'y'|'Y'|'s'|'S')
-  echo -e "\n\nPaste this ssh key in your GitHub account:"
+  echo -e "\n Paste this ssh key in your GitHub account:"
   cat ${HOME}/.ssh/id_rsa.pub
-  echo -e "\n\nPress enter to continue"
+
+  echo -e "\n Press enter to continue"
   read waiting
 
-  echo -e "\n\nTesting GitHub connection"
-
+  echo -e "\n Testing GitHub connection"
   ssh -T git@github.com
+
+  echo -e "\n done."
   ;;
 *)
-  echo -e "\n\nDone.\n\n:-D\n\n"
+  echo -e "\n That's fine."
   ;;
 esac
 
-echo -e "\n\nSetting with BitBucket? y/N"
+echo -e "\n Setting with BitBucket? [y/N]"
 read option
 
 case ${option} in
 'y'|'Y'|'s'|'S')
-  echo -e "\n\nPaste this ssh key in your BitBucket account:"
+  echo -e "\n Paste this ssh key in your BitBucket account:"
   cat ${HOME}/.ssh/id_rsa.pub
-  echo -e "\n\nPress enter to continue"
+
+  echo -e "\n Press enter to continue"
   read waiting
 
-  echo -e "\n\nTesting BitBucket connection"
-
+  echo -e "\n Testing BitBucket connection"
   ssh -T git@bitbucket.org
+
+  echo -e "\n done."
+
   ;;
 *)
-  echo -e "\n\nDone.\n\n:-D\n\n"
+  echo -e "\n That's fine."
   ;;
 esac
 
@@ -270,24 +285,36 @@ esac
 #               Snaps
 ########################################
 
-echo -e "\n\nInstall SNAPS? y/N"
+echo -e "\n Install SNAPS? [y/N]"
 read option
 
 # https://snapcraft.io/store
 case ${option} in
 'y'|'Y'|'s'|'S')
 
+  echo -e "\n -- sublime-text"
   sudo snap install sublime-text --classic
-  sudo snap install --classic heroku
-  sudo snap install opera
-  sudo snap install spotify
-  sudo snap install postman
-  sudo snap install slack --classic
-  sudo snap install chromium
 
+  echo -e "\n -- heroku"
+  sudo snap install heroku --classic
   heroku login -i
 
-  echo -e "\n-- enpass"
+  echo -e "\n -- opera"
+  sudo snap install opera
+
+  echo -e "\n -- postman"
+  sudo snap install postman
+
+  echo -e "\n -- slack"
+  sudo snap install slack --classic
+
+  echo -e "\n -- heroku"
+  sudo snap install chromium
+
+  echo -e "\n -- spotify"
+  sudo snap install spotify
+
+  echo -e "\n -- enpass"
 
   # https://www.enpass.io/support/kb/general/how-to-install-enpass-on-linux/
   echo "deb https://apt.enpass.io/ stable main" | sudo tee /etc/apt/sources.list.d/enpass.list
@@ -295,14 +322,38 @@ case ${option} in
   sudo apt update
   sudo apt install enpass
 
-  echo -e "\n-- dropbox"
+  echo -e "\n -- dropbox"
 
-  cd ~ && wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
-  ~/.dropbox-dist/dropboxd
+  wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
+  bash .dropbox-dist/dropboxd
+
+  echo -e "\n done."
 
   ;;
 *)
-  echo -e "\n\nDone.\n\n:-D\n\n"
+  echo -e "\n That's fine."
+  ;;
+esac
+
+########################################
+#               STEAM
+########################################
+
+echo -e "\n Install STEAM? [y/N]"
+read option
+
+# https://store.steampowered.com/about/
+case ${option} in
+'y'|'Y'|'s'|'S')
+
+  wget -O https://steamcdn-a.akamaihd.net/client/installer/steam.deb
+  sudo dpkg -i steam_latest.deb
+
+  echo -e "\n done."
+
+  ;;
+*)
+  echo -e "\n That's fine."
   ;;
 esac
 
